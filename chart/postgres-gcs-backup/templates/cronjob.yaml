@@ -1,4 +1,4 @@
-apiVersion: batch/v1beta1
+apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: {{ template "postgres-gcs-backup.fullname" . }}
@@ -37,4 +37,7 @@ spec:
           volumes:
             - name: gcp-credentials
               secret:
-                secretName: {{ .Values.secretName }}
+                secretName: {{ .Values.gcsCredentials.secret.name }}
+                items:
+                - key: {{ .Values.gcsCredentials.secret.key }} 
+                  path: "gcs-creds.json"
